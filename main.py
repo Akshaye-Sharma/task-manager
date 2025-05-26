@@ -1,13 +1,22 @@
 import click
+import psycopg2
+
 """
 main.py - A CLI tool for managing tasks in memory.
 
 Commands:
-    add, list, edit, delete
+    add, delete, edit, list
 """
 
-# Simple in memory task list
-tasks = []
+# Connecting database to postgreSQL database
+
+conn = psycopg2.connect(
+    dbname="manager",
+    user="akshayesharma",
+    host="localhost",
+    port="5432"
+)
+cursor = conn.cursor()
 
 @click.group()
 def cli():
@@ -25,7 +34,8 @@ def add(description):
     :type description: str
     :return: none
     """
-    tasks.append(description)
+    cursor.execute("INSERT INTO tasks (description) VALUES (%s)", (description,))
+    conn.commit()
     click.echo(f"Task added: {description}")
 
 @cli.command()
@@ -38,14 +48,15 @@ def delete(task_id):
     :type task_id: int
     :return: none
     """
-    if not tasks:
-        click.echo("No tasks found.")
+
+    cursor.execute("SELECT description FROM tasks WHERE id = %s", (task_id,))
+    result = cursor.fetchone()
+    if result is None:
+        click.echo("No such task found.")
         return
-    if 1<= task_id <= len(tasks):
-        removed = tasks.pop()
-        click.echo(f"Deleted task: {removed}")
-    else:
-        click.echo("Invalid task ID.")
+    cursor.execute("DELETE FROM tasks WHERE id = %s", (task_id,))
+    conn.commit()
+    click.echo(f"Deleted task: {result[0]}")
 
 @cli.command()
 @click.argument('task_id', type=int)
@@ -60,11 +71,15 @@ def edit(task_id, new_description):
     :type new_description: int
     :return: none
     """
-    if 1 <= task_id <= len(tasks):
-        tasks[task_id - 1] = new_description
-        click.echo(f"Task {task_id} updated.")
-    else:
-        click.echo("Invalid task ID.")
+    cursor.execute("SELECT description FROM tasks WHERE id = %s", (task_id,))
+    result = cursor.fetchone()
+    if result is None:
+        click.echo("No such task found.")
+        return
+    
+    cursor.execute("UPDATE tasks SET description = %s WHERE id = %s", (new_description, task_id))
+    conn.commit()
+    click.echo(f"Task {task_id} updated.")
 
 @cli.command()
 def list():
@@ -73,11 +88,13 @@ def list():
     
     :return: none
     """
-    if not tasks:
+    cursor.execute("SELECT id, description FROM tasks ORDER BY id")
+    rows = cursor.fetchall()
+    if not rows:
         click.echo("No tasks found.")
     else:
-        for i, task in enumerate(tasks, 1):
-            click.echo(f"{i}. {task}")
+        for row in rows:
+            click.echo(f"{row[0]}. {row[1]}")
 
 if __name__ == "__main__":
     cli()
