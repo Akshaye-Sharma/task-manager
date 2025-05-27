@@ -1,20 +1,18 @@
-# TaskManager
+# TaskManager API
 
-A simple command-line interface (CLI) tool to manage tasks using Python, PostgreSQL and Click.
-
-> 🚧 **This project is in early development.** Currently, it runs only on my local machine and uses a local PostgreSQL database. More features and cross-platform compatibility will be added soon.
+A simple RESTful web API to manage tasks using **Python**, **Flask**, and **PostgreSQL**.
 
 ## Current Status
 
-* Basic CLI tool with commands to add, list, edit and delete tasks.
+* Web API with endpoints to add, list, edit, delete and clear tasks.
 * Task data is stored in a PostgreSQL database (`manager`).
-* Single script: `main.py`.
+* API built using Flask `app.py`
 
 ## Prerequisites
 
 * Python 3.x
 * PostgreSQL installed and running locally.
-* Required python packages: `click`, `psycopg2`.
+* Required python packages: `Flask`, `psycopg2`.
 
 ## Setup Instructions
 
@@ -30,20 +28,22 @@ brew services start postgresql
 2. Installing Python dependencies:
 
 ```bash
-pip install click psycopg2
+pip install flask psycopg2
 ```
->If you have issues with `psycopg2`, try `psycopg2-binary` instead:
+>If you have issues with `psycopg2`, try:
 >```bash
 >pip install psycopg2-binary
 >```
-3. Create a database named `manager`:
+3. Create a PostgreSQL database and table:
 ```sql
 CREATE DATABASE manager;
-```
-4. Create a `tasks` table:
-```sql
+\c manager
 CREATE TABLE tasks (
     id SERIAL PRIMARY KEY,
     description TEXT NOT NULL
 );
+```
+4. Run the app:
+```bash
+python app.py
 ```
