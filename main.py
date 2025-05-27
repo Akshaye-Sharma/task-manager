@@ -5,7 +5,7 @@ import psycopg2
 main.py - A CLI tool for managing tasks in memory.
 
 Commands:
-    add, delete, edit, list
+    add, delete, edit, clear, list
 """
 
 # Connecting database to postgreSQL database
@@ -80,6 +80,22 @@ def edit(task_id, new_description):
     cursor.execute("UPDATE tasks SET description = %s WHERE id = %s", (new_description, task_id))
     conn.commit()
     click.echo(f"Task {task_id} updated.")
+
+@cli.command()
+def clear():
+    """
+    Clear the list of tasks.
+
+    :return: none
+    """
+    cursor.execute("SELECT * FROM tasks")
+    result = cursor.fetchone()
+    if not result:
+        click.echo("No tasks found.")
+
+    cursor.execute("TRUNCATE TABLE tasks RESTART IDENTITY")
+    conn.commit()
+    click.echo("List tasks cleared.")
 
 @cli.command()
 def list():

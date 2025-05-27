@@ -2,11 +2,9 @@
 
 A simple command-line interface (CLI) tool to manage tasks using Python, PostgreSQL and Click.
 
-> 🚧 **This project is in early development.** Currently, it runs only on my local machine and uses a local PostgreSQL database. More features and cross-platform compatibility will be added soon.
-
 ## Current Status
 
-* Basic CLI tool with commands to add, list, edit and delete tasks.
+* Basic CLI tool with commands to add, list, edit, clear and delete tasks.
 * Task data is stored in a PostgreSQL database (`manager`).
 * Single script: `main.py`.
 
