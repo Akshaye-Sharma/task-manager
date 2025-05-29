@@ -5,13 +5,6 @@ from flask_jwt_extended import (
 )
 import psycopg2
 
-"""
-app.py - Basic web app for managing tasks.
-
-Commands:
-    add, delete, edit, clear and list
-"""
-
 app = Flask(__name__)
 
 bcrypt = Bcrypt(app)
@@ -68,15 +61,18 @@ def login():
 @app.route("/tasks", methods=["POST"])
 @jwt_required()
 def add_task():
-    current_user_id = get_jwt_identity()
+    user_id = get_jwt_identity()
     data = request.get_json()
     description = data.get("description")
 
     if not description:
         return jsonify({"error": "Task description is required"}), 400
 
+    cursor.execute("SELECT COUNT(*) FROM tasks WHERE user_id = %s", (user_id,))
+    user_task_number = cursor.fetchone()[0] + 1
+
     cursor.execute(
-        "INSERT INTO tasks (description, user_id) VALUES (%s, %s)", (description, current_user_id))
+        "INSERT INTO tasks (description, user_id, user_task_number) VALUES (%s, %s, %s)", (description, user_id, user_task_number))
     
     conn.commit()
     return jsonify({"Added task ": description}), 201
@@ -88,7 +84,7 @@ def clear_list():
 
     cursor.execute("SELECT * FROM tasks WHERE user_id = %s", (user_id,))
     if not cursor.fetchall():
-        return jsonify({"error":"No tasks found."})
+        return jsonify({"message":"No tasks found."})
 
     cursor.execute("DELETE FROM tasks WHERE user_id = %s", (user_id,))
     conn.commit()
@@ -101,7 +97,7 @@ def list_tasks():
     user_id = get_jwt_identity()
 
     cursor.execute(
-        "SELECT id, description FROM tasks WHERE user_id = %s", (user_id))
+        "SELECT user_task_number, description FROM tasks WHERE user_id = %s ORDER BY user_task_number", (user_id))
     rows = cursor.fetchall()
     if not rows:
         return jsonify({"error":"No tasks found."})
@@ -115,24 +111,24 @@ def edit_task():
     data = request.get_json()
 
     user_id = get_jwt_identity()
-    id = data.get("id")
+    user_task_number = data.get("id")
     description = data.get("description")
 
-    if not id:
+    if not user_task_number:
         return jsonify({"error": "Task number is requried."}), 400
 
     if not description:
         return jsonify({"error": "Task description is requried."}), 400
 
-    cursor.execute("SELECT * FROM tasks WHERE id = %s AND user_id = %s", (id, user_id,))
+    cursor.execute("SELECT * FROM tasks WHERE user_task_number = %s AND user_id = %s", (user_task_number, user_id,))
     task = cursor.fetchone()
 
     if not task:
         return jsonify({"error": "No such task found."}), 400
     
-    cursor.execute("UPDATE tasks SET description = %s WHERE id = %s AND user_id = %s", (description, id, user_id))
+    cursor.execute("UPDATE tasks SET description = %s WHERE user_task_number = %s AND user_id = %s", (description, user_task_number, user_id))
     conn.commit()
-    return jsonify({"Task edited": {"id": id, "description": description}})
+    return jsonify({"Task edited": {"id": user_task_number, "description": description}})
 
 
 @app.route("/tasks", methods=["DELETE"])
@@ -141,18 +137,31 @@ def delete_task():
     data = request.get_json()
 
     user_id = get_jwt_identity()
-    id = data.get("id")
+    user_task_number = data.get("id")
 
-    if not id:
+    if not user_task_number:
         return jsonify({"error": "Task number is requried."}), 400
     
-    cursor.execute("SELECT * FROM tasks WHERE id = %s AND user_id = %s", (id, user_id,))
+    cursor.execute("SELECT * FROM tasks WHERE user_task_number = %s AND user_id = %s", (user_task_number, user_id,))
     task = cursor.fetchone()
 
     if not task:
         return jsonify({"error": "No such task found."}), 400
     
-    cursor.execute("DELETE FROM tasks WHERE id = %s AND user_id = %s", (id, user_id,))
+    cursor.execute("DELETE FROM tasks WHERE user_task_number = %s AND user_id = %s", (user_task_number, user_id,))
+
+    cursor.execute("SELECT id FROM tasks WHERE user_id = %s", (user_id,))
+    result = cursor.fetchall()
+
+    for i in range(len(result)):
+        cursor.execute(
+            """UPDATE tasks
+            SET user_task_number = %s
+            WHERE id = %s
+            """, 
+            (i+1, result[i],)
+        )
+
     conn.commit()
     return jsonify({"Deleted task" : task}), 200
 
