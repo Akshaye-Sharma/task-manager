@@ -1,7 +1,7 @@
 from flask import request
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from user_manager import UserManager
-from task_manager import TaskManager
+from app.managers.user_manager import UserManager
+from app.managers.task_manager import TaskManager
 
 def register_routes(app, cursor, conn, bcrypt):
 

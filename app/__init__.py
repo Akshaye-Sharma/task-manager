@@ -4,7 +4,8 @@ from flask_jwt_extended import (
     JWTManager, create_access_token, jwt_required, get_jwt_identity
 )
 import psycopg2
-from routes import register_routes
+from app.routes import register_routes
+from .config import Config
 
 def create_app():
     app = Flask(__name__)
@@ -14,10 +15,10 @@ def create_app():
     jwt = JWTManager(app)
 
     conn = psycopg2.connect(
-        dbname="taskmanager",
-        user="akshayesharma",
-        host="localhost",
-        port="5432"
+        dbname=Config.DB_NAME,
+        user=Config.DB_USER,
+        host=Config.DB_HOST,
+        port=Config.DB_PORT
     )
 
     cursor = conn.cursor()
