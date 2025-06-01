@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, render_template
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.managers.user_manager import UserManager
 from app.managers.task_manager import TaskManager
@@ -8,6 +8,13 @@ def register_routes(app, cursor, conn, bcrypt):
     user_manager = UserManager(cursor, conn, bcrypt)
     task_manager = TaskManager(cursor, conn)
 
+    @app.route("/register-page")
+    def register_index():
+        return render_template("register.html")
+    
+    @app.route("/login-page")
+    def login_index():
+        return render_template("login.html")
 
     @app.route("/auth/register", methods=["POST"])
     def register():

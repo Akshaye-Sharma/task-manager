@@ -28,6 +28,7 @@ class UserManager:
             return jsonify({"error": "Username already exists"}), 400
 
         return jsonify({"message" : "User registered"}), 201
+
     
     def login_user(self):
         data = request.get_json()

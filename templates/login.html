@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h1>Login</h1>
+
+  <form id="login-form">
+    <label>Username: <input type="text" id="login-username" required></label><br>
+    <label>Password: <input type="password" id="login-password" required></label><br>
+    <button type="submit">Login</button>
+  </form>
+
+  <p id="login-message"></p>
+
+  <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>

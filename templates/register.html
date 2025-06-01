@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h1>Register</h1>
+
+  <form id="register-form">
+    <label>Username: <input type="text" id="reg-username" required></label><br>
+    <label>Password: <input type="password" id="reg-password" required></label><br>
+    <button type="submit">Register</button>
+  </form>
+
+  <p id="reg-message"></p>
+
+  <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>
