@@ -8,13 +8,13 @@ def register_routes(app, cursor, conn, bcrypt):
     user_manager = UserManager(cursor, conn, bcrypt)
     task_manager = TaskManager(cursor, conn)
 
-    @app.route("/register-page")
-    def register_index():
-        return render_template("register.html")
+    @app.route("/auth")
+    def index():
+        return render_template("index.html")
     
-    @app.route("/login-page")
-    def login_index():
-        return render_template("login.html")
+    @app.route("/tasks")
+    def tasks():
+        return render_template("tasks.html")
 
     @app.route("/auth/register", methods=["POST"])
     def register():

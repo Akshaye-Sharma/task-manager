@@ -18,8 +18,12 @@ if (loginForm) {
       const data = await response.json();
 
       if (response.ok) {
+        localStorage.setItem("token", data.access_token);
         messageEL.textContent = "Login successful!";
         messageEL.style.color = "green";
+        setTimeout(() => {
+          window.location.href = "/tasks";
+        }, 1000);
       } else {
         messageEL.textContent = "Login failed";
         messageEL.style.color = "red";
