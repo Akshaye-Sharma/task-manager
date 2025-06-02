@@ -1,28 +1,8 @@
-from flask import request, render_template
-from flask_jwt_extended import jwt_required, get_jwt_identity
-from app.managers.user_manager import UserManager
+from flask_jwt_extended import jwt_required
 from app.managers.task_manager import TaskManager
 
-def register_routes(app, cursor, conn, bcrypt):
-
-    user_manager = UserManager(cursor, conn, bcrypt)
+def register_task_routes(app, cursor, conn):
     task_manager = TaskManager(cursor, conn)
-
-    @app.route("/auth")
-    def auth_page():
-        return render_template("auth_page.html")
-    
-    @app.route("/tasks")
-    def tasks_page():
-        return render_template("tasks_page.html")
-
-    @app.route("/auth/register", methods=["POST"])
-    def register():
-        return user_manager.register_user()
-
-    @app.route("/auth/login", methods=["POST"])
-    def login():
-        return user_manager.login_user()
 
     @app.route("/tasks", methods=["POST"])
     @jwt_required()
@@ -47,6 +27,4 @@ def register_routes(app, cursor, conn, bcrypt):
     @app.route("/tasks/clear", methods=["GET"])
     @jwt_required()
     def clear_list():
-        return task_manager.clear_tasks()
-    
-    return app
+        return task_manager.clear_list()
