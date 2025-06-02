@@ -9,12 +9,12 @@ def register_routes(app, cursor, conn, bcrypt):
     task_manager = TaskManager(cursor, conn)
 
     @app.route("/auth")
-    def index():
-        return render_template("index.html")
+    def auth_page():
+        return render_template("auth_page.html")
     
     @app.route("/tasks")
-    def tasks():
-        return render_template("tasks.html")
+    def tasks_page():
+        return render_template("tasks_page.html")
 
     @app.route("/auth/register", methods=["POST"])
     def register():
@@ -29,7 +29,7 @@ def register_routes(app, cursor, conn, bcrypt):
     def add_task():
         return task_manager.add_task()
 
-    @app.route("/tasks", methods=["GET"])
+    @app.route("/TaskManager/tasks", methods=["GET"])
     @jwt_required()
     def list_tasks():
         return task_manager.list_tasks()

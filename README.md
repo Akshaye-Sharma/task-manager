@@ -22,12 +22,19 @@ A secure, RESTful Flask API for managing user-specific task lists with JWT-based
 ```bash
 TaskManager/
 ├── app/
+│   ├── managers/
+│   │   ├── user_manager.py
+│   │   └── task_manager.py
 │   ├── __init__.py          # App factory + JWT setup
 │   ├── routes.py
-│   ├── managers/
-│   │    ├── user_manager.py      
-│   │    ├── task_manager.py      
-│   └── config.py                         
+│   └── config.py
+├── templates/
+│   └── auth_page.html
+│   └── tasks_page.html
+├── static/
+│   ├── auth.js     
+│   ├── tasks.js     
+│   └── style.css   
 ├── .gitignore
 ├── run.py                   # Entry point for running the app
 ├── requirements.txt

@@ -28,7 +28,7 @@ class TaskManager:
             "SELECT user_task_number, description FROM tasks WHERE user_id = %s ORDER BY user_task_number", (user_id))
         rows = self.cursor.fetchall()
         if not rows:
-            return jsonify({"error":"No tasks found."})
+            return jsonify({"error":"No tasks found."}), 404
         else:
             task_list = [f"{row[0]}. {row[1]}" for row in rows]
             return jsonify(task_list)
