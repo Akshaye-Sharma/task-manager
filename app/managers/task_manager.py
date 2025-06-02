@@ -25,13 +25,12 @@ class TaskManager:
     def list_tasks(self):
         user_id = get_jwt_identity()
         self.cursor.execute(
-            "SELECT user_task_number, description FROM tasks WHERE user_id = %s ORDER BY user_task_number", (user_id))
+            "SELECT user_task_number, description FROM tasks WHERE user_id = %s ORDER BY user_task_number", (user_id,))
         rows = self.cursor.fetchall()
-        if not rows:
-            return jsonify({"error":"No tasks found."}), 404
-        else:
-            task_list = [f"{row[0]}. {row[1]}" for row in rows]
-            return jsonify(task_list)
+        
+        task_list = [f"{row[0]}. {row[1]}" for row in rows]
+        return jsonify(task_list), 200  # Always return a list
+
 
     def edit_task(self, user_task_number):
         data = request.get_json()
@@ -84,5 +83,5 @@ class TaskManager:
 
         self.cursor.execute("DELETE FROM tasks WHERE user_id = %s", (user_id,))
         self.conn.commit()
-        
+
         return jsonify({"Clear list":"List tasks cleared."})

@@ -53,7 +53,7 @@ document.getElementById("clear-tasks").addEventListener("click", () => {
     displayMessage.textContent = "There was an error sending the clear request";
     console.error("There was an error sending the clear request: ", error.message);
   });
-});
+})
 
 function loadTasks() {
   fetch("/api/tasks", {
