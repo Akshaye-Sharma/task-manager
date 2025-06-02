@@ -70,3 +70,43 @@ p {
   color: #d00;
   text-align: center;
 }
+.task-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 30px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.task-action {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.task-action input {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex: 1;
+  min-width: 120px;
+  box-sizing: border-box;
+}
+
+.task-action button {
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  min-width: 100px;
+}
+
+.task-action button:hover {
+  background-color: #357ae8;
+}

@@ -9,6 +9,30 @@
   <h1 class="main-header">Tasks:</h1>
   <ul id = "task-list"></ul>
 
+    <div class="task-controls">
+      <div class="task-action">
+        <input type="text" id="add-desc" placeholder="New task description">
+        <button id="add-task">Add Task</button>
+      </div>
+
+      <div class="task-action">
+        <input type="number" id="edit-index" placeholder="Task #">
+        <input type="text" id="edit-desc" placeholder="Updated description">
+        <button id="edit-task">Edit Task</button>
+      </div>
+
+      <div class="task-action">
+        <input type="number" id="delete-index" placeholder="Task #">
+        <button id="delete-task">Delete Task</button>
+      </div>
+
+      <div class="task-action">
+        <button id="clear-tasks">Clear All</button>
+      </div>
+  </div>
+
+  <p id="action-message"></p>
+
   <script src="{{ url_for('static', filename='tasks.js') }}"></script>
 </body>
 

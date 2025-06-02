@@ -84,4 +84,5 @@ class TaskManager:
 
         self.cursor.execute("DELETE FROM tasks WHERE user_id = %s", (user_id,))
         self.conn.commit()
+        
         return jsonify({"Clear list":"List tasks cleared."})
