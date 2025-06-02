@@ -7,7 +7,7 @@ if (loginForm) {
     const messageEL = document.getElementById("login-message");
 
     try {
-      const response = await fetch("/auth/login", {
+      const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -46,7 +46,7 @@ if (registerForm) {
     const messageER = document.getElementById("reg-message");
 
     try {
-      const response = await fetch("/auth/register", {
+      const response = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

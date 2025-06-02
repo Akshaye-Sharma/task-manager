@@ -1,6 +1,6 @@
 const token = localStorage.getItem("token");
 
-fetch("/TaskManager/tasks", {
+fetch("/api/tasks", {
   method: "GET",
   headers: {
     "Authorization": `Bearer ${token}`
