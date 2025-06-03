@@ -1,14 +1,23 @@
 # TaskManager API
 
-A secure, RESTful Flask API for managing user-specific task lists with JWT-based authentication and PostgreSQL.
+A secure, full-stack task manager app featuring a RESTful Flask API backend and a responsive frontend web interface
+for user registration, login, and task management.
 
-## Features
+## Backend API
 
-* User Registration & Login (with hashed passwords and `Bycrpt`)
-* JWT Authentication to protect task endpoints.
-* Web API with endpoints to add, list, edit, delete and clear tasks.
-* Task data is stored in a PostgreSQL database (`manager`).
-* Task numbering per user.
+* User registration & login with secure hashed passwords using `Bcrypt`.
+* JWT Authentication to protect task-related API endpoints.
+* RESTful API endpoints to add, list, edit, delete, and clear user-specific tasks.
+* Data persistence using PostgreSQL database (`taskmanager`).
+* *ask numbering scoped per user.
+
+## Frontend Web App
+
+* Responsive login and registration pages.
+* Task management UI with add/edit/delete/clear operations.
+* Username persistence across pages using Local Storage.
+* Clean, simple UI styled with CSS for usability.
+* Dynamic display of logged-in user information.
 
 ## Tech Stack
 * Backend: Python (Flask)
@@ -16,6 +25,7 @@ A secure, RESTful Flask API for managing user-specific task lists with JWT-based
 * Authentication: JWT (via `flask-jwt-extended`)
 * Password Security: `Bcrypt`
 * Environment Management: `python-dotenv`
+* Frontend: HTML, CSS, JavaScript
 
 ## Project Structure
 

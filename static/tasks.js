@@ -1,6 +1,12 @@
 const token = localStorage.getItem("token");
 const displayMessage = document.getElementById("action-message");
 
+const nameIcon = document.getElementById("username-display");
+const username = localStorage.getItem("username");
+
+nameIcon.textContent = username;
+
+
 loadTasks();
 
 document.getElementById("add-task").addEventListener("click", async () => {
@@ -134,6 +140,7 @@ document.getElementById("clear-tasks").addEventListener("click", async () => {
 
     const data = await response.json();
     displayMessage.textContent = data.message;
+
     loadTasks();
 
   } catch (error) {

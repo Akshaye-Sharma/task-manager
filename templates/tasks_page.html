@@ -6,7 +6,13 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <h1 class="main-header">Tasks:</h1>
+  <h1 class="main-header">Tasks</h1>
+
+  <div id="user-info">
+    <span class="user-icon">👤</span>
+    <span id="username-display">Guest</span>
+  </div>
+
   <ul id = "task-list"></ul>
 
     <div class="task-controls">

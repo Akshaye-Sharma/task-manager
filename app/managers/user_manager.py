@@ -25,7 +25,7 @@ class UserManager:
             self.conn.commit()
         except psycopg2.IntegrityError:
             self.conn.rollback()
-            return jsonify({"error": "Username already exists"}), 400
+            return jsonify({"message": "Username already exists"}), 400
 
         return jsonify({"message" : "User registered"}), 201
 
@@ -36,7 +36,7 @@ class UserManager:
         password = data.get('password')
 
         if not username or not password:
-            return jsonify({"error": "Username and password are required"}), 400
+            return jsonify({"message": "Username and password are required"}), 400
         
         self.cursor.execute("SELECT id, password FROM users WHERE username = %s", (username,))
         user = self.cursor.fetchone()
@@ -45,4 +45,4 @@ class UserManager:
             token = create_access_token(identity=str(user[0]))
             return jsonify(message = "Login successful", access_token=token)
         
-        return jsonify({"Failed": "Invalid credentials"}), 401
+        return jsonify({"message": "Invalid credentials"}), 401
