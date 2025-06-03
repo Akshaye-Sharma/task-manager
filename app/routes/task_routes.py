@@ -29,7 +29,7 @@ def register_task_routes(app, cursor, conn):
     def delete_task(task_id):
         return task_manager.delete_task(task_id)
 
-    @app.route("/api/tasks/clear", methods=["GET"])
+    @app.route("/api/tasks/clear", methods=["DELETE"])
     @jwt_required()
     def clear_list():
         return task_manager.clear_list()
