@@ -9,7 +9,7 @@ for user registration, login, and task management.
 * JWT Authentication to protect task-related API endpoints.
 * RESTful API endpoints to add, list, edit, delete, and clear user-specific tasks.
 * Data persistence using PostgreSQL database (`taskmanager`).
-* *ask numbering scoped per user.
+* Task numbering scoped per user.
 
 ## Frontend Web App
 
@@ -107,5 +107,14 @@ DB_PORT=5432
 4. Run the app
 
 ```bash
-python run.py
+python3 run.py
+```
+
+
+## Running Tests
+
+Make sure PostgreSQL is running and environment variables are set.
+
+```bash
+python3 -m unittest discover tests
 ```

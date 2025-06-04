@@ -6,6 +6,7 @@ class TaskManager:
         self.cursor = cursor
         self.conn = conn
 
+
     def add_task(self):
         data = request.get_json()
         user_id = get_jwt_identity()
@@ -20,7 +21,7 @@ class TaskManager:
             "INSERT INTO tasks (description, user_id, user_task_number) VALUES (%s, %s, %s)", (description, user_id, user_task_number))
         
         self.conn.commit()
-        return jsonify({"Added task ": description}), 201
+        return jsonify({"Added task": description}), 201
     
     def list_tasks(self):
         user_id = get_jwt_identity()
@@ -30,7 +31,6 @@ class TaskManager:
         
         task_list = [f"{row[0]}. {row[1]}" for row in rows]
         return jsonify(task_list), 200  # Always return a list
-
 
     def edit_task(self, user_task_number):
         data = request.get_json()
@@ -57,7 +57,7 @@ class TaskManager:
         if not user_task_number:
             return jsonify({"error": "Task number is requried."}), 400
         
-        self.cursor.execute("SELECT * FROM tasks WHERE user_task_number = %s AND user_id = %s", (user_task_number, user_id,))
+        self.cursor.execute("SELECT description FROM tasks WHERE user_task_number = %s AND user_id = %s", (user_task_number, user_id,))
         task = self.cursor.fetchone()
 
         if not task:
@@ -72,9 +72,8 @@ class TaskManager:
             self.cursor.execute("UPDATE tasks SET user_task_number = %s WHERE id = %s", (i+1, result[i][0],))
         self.conn.commit()
 
-        
         return jsonify({"Deleted task" : task}), 200
-    
+
     def clear_list(self):
         user_id = get_jwt_identity()
         self.cursor.execute("SELECT * FROM tasks WHERE user_id = %s", (user_id,))

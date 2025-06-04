@@ -7,24 +7,26 @@ import psycopg2
 from app.routes import register_routes
 from .config import Config
 
-def create_app():
+def create_app(test_config=None, test_conn=None, test_cursor=None):
     app = Flask(__name__,
                 template_folder='../templates',
                 static_folder='../static'
                 )
 
+    app.config.from_object(Config or test_config)
+
     bcrypt = Bcrypt(app)
-    app.config["JWT_SECRET_KEY"] = "myspecialKey"
+    app.config["JWT_SECRET_KEY"] = Config.JWT_SECRET_KEY
     jwt = JWTManager(app)
 
-    conn = psycopg2.connect(
+    conn = test_conn or psycopg2.connect(
         dbname=Config.DB_NAME,
         user=Config.DB_USER,
         host=Config.DB_HOST,
         port=Config.DB_PORT
     )
 
-    cursor = conn.cursor()
+    cursor = test_cursor or conn.cursor()
 
     register_routes(app, cursor, conn, bcrypt)
 
