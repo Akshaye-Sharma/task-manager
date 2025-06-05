@@ -12,16 +12,20 @@ def create_app(test_config=None, test_conn=None, test_cursor=None):
                 template_folder='../templates',
                 static_folder='../static'
                 )
-
     app.config.from_object(Config or test_config)
 
     bcrypt = Bcrypt(app)
     app.config["JWT_SECRET_KEY"] = Config.JWT_SECRET_KEY
     jwt = JWTManager(app)
-
+    print("Config.DB_NAME", Config.DB_NAME)
+    print("Config.DB_USER", Config.DB_USER)
+    print("Config.DB_PASSWORD", Config.DB_PASSWORD)
+    print("Config.DB_HOST", Config.DB_HOST)
+    print("Config.DB_PORT", Config.DB_PORT)
     conn = test_conn or psycopg2.connect(
         dbname=Config.DB_NAME,
         user=Config.DB_USER,
+        password=Config.DB_PASSWORD,
         host=Config.DB_HOST,
         port=Config.DB_PORT
     )

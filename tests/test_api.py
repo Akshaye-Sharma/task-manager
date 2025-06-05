@@ -162,6 +162,3 @@ class TaskManagerTestCase(unittest.TestCase):
         res = self.client.delete('/api/tasks/clear', headers=headers)
 
         self.assertIn("Clear list", res.get_json())
-
-
-

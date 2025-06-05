@@ -48,7 +48,10 @@ TaskManager/
 │   ├── auth.js
 │   ├── tasks.js
 │   └── style.css
+├── tests/
+│   └── test_api.py
 ├── .gitignore
+├── .env
 ├── run.py                       # Entry point for running the app
 ├── requirements.txt
 └── README.md
