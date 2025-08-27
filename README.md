@@ -30,7 +30,7 @@ for user registration, login, and task management.
 ## Project Structure
 
 ```bash
-TaskManager/
+task-manager/
 ├── app/                         
 │   ├── __init__.py              
 │   ├── config.py                
@@ -68,8 +68,8 @@ PostgreSQL installed and running locally.
 1. Clone the repository & install dependencies
 
 ```bash
-git clone https://github.come/Akshaye-Sharma/TaskManager.git
-cd TaskManager
+git clone https://github.come/Akshaye-Sharma/task-manager.git
+cd task-manager
 pip install -r requirements.txt
 ```
 
@@ -112,7 +112,6 @@ DB_PORT=5432
 ```bash
 python3 run.py
 ```
-
 
 ## Running Tests
 
